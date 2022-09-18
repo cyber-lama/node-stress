@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  backend:
+    container_name: backend
+    image: node:18.8.0
+    working_dir: /home/node/app
+    command: "sh -c 'yarn && yarn dev'"
+    user: "node"
+    ports:
+      - "3000:8080"
+    depends_on:
+      - db
+    volumes:
+      - ./backend:/home/node/app
+    networks:
+      - network
+
+  db:
+    image: postgres:14.1
+    container_name: postgres
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - ./postgres/data:/var/lib/postgresql/data
+      - ./postgres/postgres.conf:/etc/postgres.conf
+    ports:
+      - ${DB_PORT}:5432
+    command: postgres -c config_file=/etc/postgres.conf
+    networks:
+      - network
+
+networks:
+  network:
+    driver: bridge
