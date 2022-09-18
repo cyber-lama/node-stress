@@ -13,7 +13,6 @@ migrationRun = async () => {
           id       serial PRIMARY KEY,
           name     VARCHAR(50)
       );
-      INSERT INTO users(name) VALUES ('test')
   `;
   const query2 = `INSERT INTO users(name) VALUES ($1)`;
 
