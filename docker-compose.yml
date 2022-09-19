@@ -13,8 +13,6 @@ services:
       - db
     volumes:
       - ./backend:/home/node/app
-    networks:
-      - network
 
   db:
     image: postgres:14.1
@@ -29,9 +27,3 @@ services:
     ports:
       - ${DB_PORT}:5432
     command: postgres -c config_file=/etc/postgres.conf
-    networks:
-      - network
-
-networks:
-  network:
-    driver: bridge
